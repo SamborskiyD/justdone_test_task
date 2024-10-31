@@ -34,7 +34,7 @@ const Badge = ({
   discount: string;
 }) => {
   return (
-    <span className="absolute font-semibold -translate-y-1/2 left-11 top-0 bg-green rounded-full text-white text-center text-xs leading-5 tracking-[0.1px] pl-2.5 py-1 pr-[9px]">
+    <span className="absolute font-semibold -translate-y-1/2 z-10 left-11 top-0 bg-green rounded-full text-white text-center text-xs leading-5 tracking-[0.1px] pl-2.5 py-1 pr-[9px]">
       {isPopular ? "Most Popular" : discount ? "Save " + discount + "%" : ""}
     </span>
   );
@@ -42,7 +42,7 @@ const Badge = ({
 
 const BestValueBadge = () => {
   return (
-    <span className="absolute flex items-center rotate-[4.26deg] top-0 right-[30px] -translate-y-[80%] font-semibold bg-yellow rounded-full text-textSecondary text-center text-base tracking-[0.15px] py-[9px] px-[25px]">
+    <span className="absolute flex items-center rotate-[4.26deg] top-0 right-[30px] -translate-y-[80%] z-10 font-semibold bg-yellow rounded-full text-textSecondary text-center text-base tracking-[0.15px] py-[9px] px-[25px]">
       <span>🚀</span> Best value
     </span>
   );
@@ -70,6 +70,7 @@ const ProductCard = ({
         className="hidden lg:flex"
         isSaleEnded={isSaleEnded}
         saleTime={saleTime}
+        withArrow
       />
 
       <div
@@ -81,7 +82,7 @@ const ProductCard = ({
           className={clsx(
             " w-5 h-5 min-w-5 min-h-5 rounded-full transition-colors duration-300",
             selected
-              ? "bg-green bg-check bg-no-repeat bg-center [background-size:19.56px_19.56px]"
+              ? "bg-green bg-check bg-no-repeat bg-center"
               : "border-2 bg-transparent border-textMain"
           )}
         />
