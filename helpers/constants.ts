@@ -1,0 +1,92 @@
+export const tools = [
+  {
+    id: 1,
+    name: "Paraphraser",
+    icon: "/images/paraphraser-icon.svg",
+    iconWidth: 18,
+  },
+  {
+    id: 2,
+    name: "Grammar Check",
+    icon: "/images/grammar-check-icon.svg",
+    iconWidth: 18,
+  },
+  {
+    id: 3,
+    name: "Plagiarism Check",
+    icon: "/images/plagiarism-check-icon.svg",
+    iconWidth: 18,
+  },
+  {
+    id: 4,
+    name: "AI Humanizer",
+    icon: "/images/ai-humanizer-icon.svg",
+    iconWidth: 20,
+  },
+  {
+    id: 5,
+    name: "AI Detector",
+    icon: "/images/ai-detector-icon.svg",
+    iconWidth: 18,
+  },
+  {
+    id: 6,
+    name: "Summarizer",
+    icon: "/images/summarizer-icon.svg",
+    iconWidth: 18,
+  },
+  {
+    id: 7,
+    name: "Chrome Extension",
+    icon: "/images/extension-icon.svg",
+    iconWidth: 20,
+  },
+];
+
+export const generateProducts = (isSaleEnded: boolean) => {
+  return [
+    {
+      isPopular: true,
+      isBestValue: false,
+      discount: "",
+      id: "cabbce0d-a5c5-4590-984b-c6995c8174343f",
+      name: "Justdone_plan_39.99_usd_30days_1_trial",
+      regularity: "month",
+      price: 3999,
+      prev_price: 6999,
+      currency: "USD",
+      trial_period: 7,
+      trial_amount: 99,
+      label: "Unlimited 1-month Plan",
+    },
+    {
+      isPopular: false,
+      isBestValue: false,
+      discount: "90",
+      id: "cabbce0d-a5c5-4590-984b-c64315c81744f",
+      name: "Justdone_plan_1.00_usd_7days",
+      regularity: "month",
+      price: 100,
+      prev_price: isSaleEnded ? undefined : 1000,
+      currency: "USD",
+      trial_period: 7,
+      trial_amount: 99,
+      label: "7-day Access",
+      per_additional_text: "Then 29.99",
+    },
+    {
+      isPopular: false,
+      isBestValue: true,
+      discount: "50",
+      id: "cabbce0d-a5c5-4590-984b-c6995c81744f",
+      name: "Justdone_plan_24.99_usd_30days_7_trial",
+      regularity: "month",
+      price: 2499,
+      prev_price: 4900,
+      currency: "USD",
+      trial_period: 7,
+      trial_amount: 99,
+      label: "Unlimited Annual Plan",
+    },
+  ];
+};

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatPrice } from "../helpers/formatPrice";
-import Image from "next/image";
+import SaleTimer from "./SaleTimer";
 
 export interface Product {
   isPopular?: boolean;
@@ -15,69 +15,66 @@ export interface Product {
   trial_period: number;
   trial_amount: number;
   label: string;
-  per_text: string;
+  per_additional_text?: string;
 }
 
 interface ProductCardProps {
   onClick: () => void;
   selected: boolean;
-  isSaleEnded: boolean;
   product: Product;
-  saleTime?: number;
+  isSaleEnded: boolean;
+  saleTime: number;
 }
 
+const Badge = ({
+  isPopular,
+  discount,
+}: {
+  isPopular?: boolean;
+  discount: string;
+}) => {
+  return (
+    <span className="absolute font-semibold -translate-y-1/2 left-11 top-0 bg-green rounded-full text-white text-center text-xs leading-5 tracking-[0.1px] pl-2.5 py-1 pr-[9px]">
+      {isPopular ? "Most Popular" : discount ? "Save " + discount + "%" : ""}
+    </span>
+  );
+};
+
+const BestValueBadge = () => {
+  return (
+    <span className="absolute flex items-center rotate-[4.26deg] top-0 right-[30px] -translate-y-[80%] font-semibold bg-yellow rounded-full text-textSecondary text-center text-base tracking-[0.15px] py-[9px] px-[25px]">
+      <span>🚀</span> Best value
+    </span>
+  );
+};
+
 const ProductCard = ({
-  isSaleEnded,
   selected,
   product,
   onClick,
+  isSaleEnded,
   saleTime,
 }: ProductCardProps) => {
   return (
     <div
       onClick={onClick}
       className={clsx(
-        " rounded-2xl w-full flex flex-col relative border-4 cursor-pointer transition-colors duration-300",
+        " rounded-2xl bg-white w-full flex flex-col relative border-4 cursor-pointer transition-colors duration-300",
         selected ? " border-green" : " border-lightGreen"
       )}
     >
-      <span className="absolute font-semibold -translate-y-1/2 left-11 top-0 bg-green rounded-full text-white text-center text-xs leading-5 tracking-[0.1px] pl-2.5 py-1 pr-[9px]">
-        {product.isPopular
-          ? "Most Popular"
-          : product.discount
-          ? "Save " + product.discount + "%"
-          : ""}
-      </span>
+      <Badge isPopular={product?.isPopular} discount={product.discount} />
+      {product.isBestValue && <BestValueBadge />}
 
-      {product.isBestValue && (
-        <span className="absolute flex items-center rotate-[4.26deg] top-0 right-[30px] -translate-y-[80%] font-semibold bg-yellow rounded-full text-textSecondary text-center text-base tracking-[0.15px] py-[9px] px-[25px]">
-          <span>🚀</span> Best value
-        </span>
-      )}
-
-      {!isSaleEnded && (
-        <div className=" hidden lg:flex bg-saleBlack gap-2.5 px-2 pt-5 pb-3 rounded-t-xl items-center justify-center">
-          <Image
-            src={"/images/timer-icon.svg"}
-            width={24}
-            height={24}
-            alt="timer"
-          />
-          <p className=" uppercase text-lightYellow text-base tracking-[0.15px] font-semibold">
-            SALE ENDS IN
-          </p>
-          <span className="uppercase text-lightYellow text-base tracking-[0.15px] font-semibold">
-            {saleTime! < 3600
-              ? new Date(saleTime! * 1000).toISOString().slice(14, 19)
-              : new Date(saleTime! * 1000).toISOString().slice(11, 19)}
-          </span>
-        </div>
-      )}
+      <SaleTimer
+        className="hidden lg:flex"
+        isSaleEnded={isSaleEnded}
+        saleTime={saleTime}
+      />
 
       <div
         className={clsx(
-          " bg-white h-full rounded-xl overflow-hidden flex items-center gap-2 pl-3 pr-4 pb-2 pt-3",
-          !isSaleEnded && " lg:rounded-t-none"
+          "h-full rounded-xl overflow-hidden flex items-center gap-2 pl-3 pr-4 pb-2 pt-3"
         )}
       >
         <span
@@ -94,14 +91,16 @@ const ProductCard = ({
         <div className="flex grow flex-col items-end gap-0.5">
           {product.prev_price && (
             <span className="text-xs leading-5 text-end line-through decoration-red text-textSecondary tracking-[0.5px]">
-              {formatPrice(product.prev_price)}
+              {formatPrice(product.prev_price, product.currency)}
             </span>
           )}
           <span className="text-xl leading-6 text-end text-blue font-bold tracking-[0.1px]">
-            {formatPrice(product.price)}
+            {formatPrice(product.price, product.currency)}
           </span>
           <span className="text-xs leading-5 text-textSecondary text-end tracking-[0.1px]">
-            {product.per_text}
+            {product.per_additional_text
+              ? product.per_additional_text + " per " + product.regularity
+              : "Per " + product.regularity}
           </span>
         </div>
       </div>
